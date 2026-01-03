@@ -1,0 +1,64 @@
+Batch-wise Student Performance Analysis
+Project Overview
+This project performs a comparative performance analysis across three specific student batches: AI_ELITE_4, AI_ELITE_6, and AI_ELITE_7. The objective is to evaluate score distributions, identify top and bottom performers, and derive data-driven insights to recommend teaching interventions.
+
+Objective
+Compare academic performance across multiple batches.
+
+Visualize score distributions using various statistical plotting techniques.
+
+Identify students requiring additional support (bottom performers) and those excelling (top performers).
+
+Provide a statistical summary (Mean, Median, Std Dev) for each group.
+
+Data Description
+The analysis is based on a dataset containing the following fields:
+
+Batch: The identifier for the student group.
+
+User_ID: Unique identifier for each student.
+
+Score: The raw test score (formatted as "X / 7").
+
+Tech Stack
+Python: Core programming language.
+
+Pandas: Data manipulation and cleaning.
+
+NumPy: Numerical operations.
+
+Matplotlib / Seaborn: Data visualization.
+
+Jupyter Notebook: Interactive development environment.
+
+Key Analysis Steps
+Data Cleaning:
+
+Stripped whitespace from column names.
+
+Parsed the Score string (e.g., "6 / 7") into an integer format for calculation.
+
+Descriptive Statistics:
+
+Calculated overall and batch-wise mean, median, and standard deviation.
+
+Visualization:
+
+Histogram: Comparison of student counts per score per batch.
+
+Boxplot: Visualizing quartiles and identifying score spreads.
+
+Violin Plot: Combining boxplots with density estimates to show the distribution shape.
+
+Performance Ranking:
+
+Extracted the Top 5 and Bottom 5 students for each batch to facilitate targeted feedback.
+
+Summary of Findings (Sample Data)
+Based on the notebook execution:
+
+Highest Performing Batch: AI_ELITE_7 (Mean: ~5.06)
+
+Lowest Performing Batch: AI_ELITE_4 (Mean: ~3.79)
+
+Score Range: 0 to 7.
