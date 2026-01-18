@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Matcher - Clone of regex101.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff9c4 0%, #ffb74d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #fff9c4 0%, #ffb74d 100%);
+            color: #333;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #ffb74d;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #fff9c4 0%, #ffb74d 100%);
+            color: #333;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 183, 77, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .results-container {
+            margin-top: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .results-header {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #c33;
+            margin-bottom: 20px;
+        }
+        
+        .matches-list {
+            list-style: none;
+        }
+        
+        .match-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #ffb74d;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .match-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .match-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #ff9800;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+        
+        .match-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .match-position {
+            display: inline-block;
+            background: #fff3e0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .match-groups {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .group-item {
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        
+        .no-matches {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .match-count {
+            background: #ffb74d;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Regex Matcher</h1>
+            <p>Test your regular expressions against any string</p>
+        </div>
+        
+        <div class="form-container">
+            <form method="POST" action="/">
+                <div class="form-group">
+                    <label for="test_string">Test String:</label>
+                    <textarea 
+                        id="test_string" 
+                        name="test_string" 
+                        placeholder="Enter the text you want to search in..."
+                        required>{{ test_string }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regex_pattern">Regular Expression:</label>
+                    <input 
+                        type="text" 
+                        id="regex_pattern" 
+                        name="regex_pattern" 
+                        placeholder="Enter your regex pattern (e.g., \d+, [a-z]+, etc.)"
+                        value="{{ regex_pattern }}"
+                        required>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            
+            {% if error %}
+            <div class="error">
+                <strong>Error:</strong> {{ error }}
+            </div>
+            {% endif %}
+            
+            {% if search_performed %}
+                {% if matches|length > 0 %}
+                <div class="results-container">
+                    <div class="results-header">
+                        <span class="match-count">{{ matches|length }} Match{{ 'es' if matches|length != 1 else '' }} Found</span>
+                    </div>
+                    <ul class="matches-list">
+                        {% for match in matches %}
+                        <li class="match-item">
+                            <div class="match-text">"{{ match.match }}"</div>
+                            <div class="match-info">
+                                <span class="match-position">Position: {{ match.start }}-{{ match.end }}</span>
+                                <span class="match-position">Length: {{ match.end - match.start }}</span>
+                            </div>
+                            {% if match.groups|length > 0 %}
+                            <div class="match-groups">
+                                <strong>Groups:</strong>
+                                {% for group in match.groups %}
+                                <div class="group-item">Group {{ loop.index }}: "{{ group }}"</div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% elif not error %}
+                <div class="results-container">
+                    <div class="no-matches">
+                        No matches found for the given regular expression.
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
