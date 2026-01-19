@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Home · URL Shortener{% endblock %}
+
+{% block content %}
+  <div class="home-background py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h4 mb-2">Shorten a URL</h1>
+          <p class="text-muted mb-4">
+            Paste a long link, click <span class="fw-semibold">Shorten URL</span>, and copy it with one click.
+          </p>
+
+          <form method="POST" action="{{ url_for('web.shorten') }}" class="mb-4">
+            <label for="url" class="form-label fw-semibold">Original URL</label>
+            <div class="input-group">
+              <input
+                id="url"
+                name="url"
+                type="url"
+                class="form-control"
+                placeholder="https://example.com/some/long/path"
+                value="{{ original_url or '' }}"
+                required
+              />
+              <button class="btn btn-primary" type="submit">Shorten URL</button>
+            </div>
+            <div class="form-text">
+              Tip: if you omit the scheme, we'll assume <span class="fw-semibold">https://</span>.
+            </div>
+          </form>
+
+          <label for="shortUrl" class="form-label fw-semibold">Short URL</label>
+          <div class="input-group">
+            <input
+              id="shortUrl"
+              type="text"
+              class="form-control"
+              value="{{ short_url or '' }}"
+              readonly
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              data-copy-target="#shortUrl"
+              {% if not short_url %}disabled{% endif %}
+            >
+              Copy
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <span class="text-muted small">Saved URLs are available in History.</span>
+            <a class="btn btn-link" href="{{ url_for('web.history') }}">View History →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock %}
+
+

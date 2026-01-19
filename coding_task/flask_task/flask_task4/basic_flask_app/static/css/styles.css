@@ -1,0 +1,16 @@
+body {
+  font-feature-settings: "ss01" 1, "ss02" 1;
+  background-color: #ccffcc; /* full-page light green */
+}
+
+.card {
+  border: 0;
+  background-color: #cce6ff; /* light blue panel for the content card */
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+

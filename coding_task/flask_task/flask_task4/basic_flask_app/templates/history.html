@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}History · URL Shortener{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+      <h1 class="h4 mb-1">History</h1>
+      <div class="text-muted">All URLs you shortened (saved in SQLite).</div>
+    </div>
+    <a class="btn btn-primary btn-sm" href="{{ url_for('web.home') }}">Shorten another</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 32%">Original URL</th>
+              <th style="width: 32%">Short URL</th>
+              <th style="width: 16%">Created</th>
+              <th style="width: 20%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if not rows %}
+              <tr>
+                <td colspan="4" class="text-center text-muted py-4">No history yet.</td>
+              </tr>
+            {% endif %}
+            {% for r in rows %}
+              {% set short_url = url_for('web.redirect_code', code=r.short_code, _external=true) %}
+              <tr>
+                <td class="text-truncate" style="max-width: 420px">
+                  <a href="{{ r.original_url }}" target="_blank" rel="noreferrer">{{ r.original_url }}</a>
+                </td>
+                <td class="text-truncate" style="max-width: 420px">
+                  <a href="{{ short_url }}" target="_blank" rel="noreferrer">{{ short_url }}</a>
+                </td>
+                <td class="text-muted small">
+                  {{ r.created_at.strftime('%Y-%m-%d %H:%M:%S') if r.created_at else '' }}
+                </td>
+                <td class="text-end">
+                  <div class="d-inline-flex gap-2">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      type="button"
+                      data-copy-text="{{ short_url }}"
+                    >
+                      Copy
+                    </button>
+                    <a class="btn btn-outline-primary btn-sm" href="{{ short_url }}" target="_blank" rel="noreferrer">
+                      Open
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
