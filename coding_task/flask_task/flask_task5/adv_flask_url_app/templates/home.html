@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Advanced URL Shortener{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <h1 class="h3 mb-3">Welcome to the Advanced URL Shortener</h1>
+        <p class="text-muted mb-4">
+          Shorten long URLs, save them to your account, and access your history from anywhere.
+        </p>
+        <div class="d-grid gap-2">
+          <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Login</a>
+          <a href="{{ url_for('signup') }}" class="btn btn-outline-secondary">
+            New here? Create an account
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
